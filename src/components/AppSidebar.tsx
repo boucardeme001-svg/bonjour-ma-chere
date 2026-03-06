@@ -1,6 +1,6 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { NavLink, useLocation } from 'react-router-dom';
-import { BookOpen, LayoutDashboard, List, FileText, BookOpenCheck, BarChart3, Settings, LogOut, ChevronsLeft, ChevronsRight, Users, Receipt, ArrowLeftRight } from 'lucide-react';
+import { BookOpen, LayoutDashboard, List, FileText, BookOpenCheck, BarChart3, Settings, LogOut, ChevronsLeft, ChevronsRight, Users, Receipt, ArrowLeftRight, UserCircle } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -62,6 +62,10 @@ const AppSidebar = () => {
       </nav>
 
       <div className="border-t border-sidebar-border p-2 space-y-1">
+        <NavLink to="/profil" className={cn("sidebar-link", location.pathname === '/profil' ? "sidebar-link-active" : "sidebar-link-inactive", "w-full")}>
+          <UserCircle className="w-5 h-5 flex-shrink-0" />
+          {!collapsed && <span>Mon Profil</span>}
+        </NavLink>
         <NavLink to="/macro" className="sidebar-link sidebar-link-inactive w-full">
           <ArrowLeftRight className="w-5 h-5 flex-shrink-0" />
           {!collapsed && <span>Cadrage macro</span>}

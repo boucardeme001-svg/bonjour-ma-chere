@@ -17,6 +17,7 @@ import Balance from "./pages/Balance";
 import Exercices from "./pages/Exercices";
 import Employes from "./pages/Employes";
 import BulletinsPaie from "./pages/BulletinsPaie";
+import MonProfil from "./pages/MonProfil";
 import MacroDashboard from "./pages/macro/MacroDashboard";
 import ModulePage from "./pages/macro/ModulePage";
 import ConvergencePage from "./pages/macro/ConvergencePage";
@@ -63,6 +64,7 @@ const App = () => (
               <Route path="exercices" element={<Exercices />} />
               <Route path="employes" element={<Employes />} />
               <Route path="bulletins-paie" element={<BulletinsPaie />} />
+              <Route path="profil" element={<MonProfil />} />
             </Route>
             <Route path="/macro" element={<ProtectedRoute><MacroLayout /></ProtectedRoute>}>
               <Route index element={<MacroDashboard />} />
