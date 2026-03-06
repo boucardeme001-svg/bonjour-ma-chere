@@ -1,6 +1,6 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { NavLink, useLocation } from 'react-router-dom';
-import { BookOpen, LayoutDashboard, List, FileText, BookOpenCheck, BarChart3, Settings, LogOut, ChevronsLeft, ChevronsRight } from 'lucide-react';
+import { BookOpen, LayoutDashboard, List, FileText, BookOpenCheck, BarChart3, Settings, LogOut, ChevronsLeft, ChevronsRight, Users, Receipt } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -12,6 +12,8 @@ const navItems = [
   { to: '/grand-livre', label: 'Grand livre', icon: BookOpen },
   { to: '/balance', label: 'Balance', icon: BarChart3 },
   { to: '/exercices', label: 'Exercices', icon: Settings },
+  { to: '/employes', label: 'Employés', icon: Users },
+  { to: '/bulletins-paie', label: 'Bulletins de paie', icon: Receipt },
 ];
 
 const AppSidebar = () => {

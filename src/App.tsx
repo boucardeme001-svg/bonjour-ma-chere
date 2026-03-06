@@ -13,6 +13,8 @@ import SaisieEcritures from "./pages/SaisieEcritures";
 import GrandLivre from "./pages/GrandLivre";
 import Balance from "./pages/Balance";
 import Exercices from "./pages/Exercices";
+import Employes from "./pages/Employes";
+import BulletinsPaie from "./pages/BulletinsPaie";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -48,6 +50,8 @@ const App = () => (
               <Route path="grand-livre" element={<GrandLivre />} />
               <Route path="balance" element={<Balance />} />
               <Route path="exercices" element={<Exercices />} />
+              <Route path="employes" element={<Employes />} />
+              <Route path="bulletins-paie" element={<BulletinsPaie />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
