@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import AuthPage from "./pages/AuthPage";
 import AppLayout from "./components/AppLayout";
+import MacroLayout from "./components/MacroLayout";
 import Dashboard from "./pages/Dashboard";
 import PlanComptable from "./pages/PlanComptable";
 import Journaux from "./pages/Journaux";
@@ -54,8 +55,10 @@ const App = () => (
               <Route path="exercices" element={<Exercices />} />
               <Route path="employes" element={<Employes />} />
               <Route path="bulletins-paie" element={<BulletinsPaie />} />
-              <Route path="macro" element={<MacroDashboard />} />
-              <Route path="macro/:simulationId/:moduleKey" element={<ModulePage />} />
+            </Route>
+            <Route path="/macro" element={<ProtectedRoute><MacroLayout /></ProtectedRoute>}>
+              <Route index element={<MacroDashboard />} />
+              <Route path=":simulationId/:moduleKey" element={<ModulePage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
