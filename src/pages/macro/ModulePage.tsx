@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { ArrowLeft, Save, TrendingUp, Landmark, Globe, Banknote } from 'lucide-react';
 import { MODULES, ModuleKey, Indicateur, evalFormule } from '@/lib/macro-indicators';
+import MacroCharts from '@/components/MacroCharts';
 
 const MODULE_ICONS: Record<string, typeof TrendingUp> = {
   pib: TrendingUp, tofe: Landmark, bdp: Globe, monetaire: Banknote,
@@ -184,6 +185,14 @@ const ModulePage = () => {
           </div>
         </Card>
       ))}
+
+      {annees.length > 0 && (
+        <MacroCharts
+          indicateurs={mod.indicateurs}
+          annees={annees}
+          getDisplayVal={getDisplayVal}
+        />
+      )}
     </div>
   );
 };
