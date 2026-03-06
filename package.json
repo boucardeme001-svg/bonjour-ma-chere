@@ -1,8 +1,11 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "syscompta",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "main": "electron/main.cjs",
+  "author": "SysCompta",
+  "description": "Logiciel de comptabilité SYSCOHADA pour le Sénégal",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -10,7 +13,41 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "electron:dev": "vite build && electron .",
+    "electron:build": "vite build && electron-builder",
+    "electron:build:win": "vite build && electron-builder --win",
+    "electron:build:mac": "vite build && electron-builder --mac",
+    "electron:build:linux": "vite build && electron-builder --linux"
+  },
+  "build": {
+    "appId": "com.syscompta.app",
+    "productName": "SysCompta",
+    "directories": {
+      "output": "electron-dist"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "public/icon-512.png"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "public/icon-512.png"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "public/icon-512.png"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "public/icon-512.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "public/icon-512.png"
+    }
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
