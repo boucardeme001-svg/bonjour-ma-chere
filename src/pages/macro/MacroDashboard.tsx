@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
-import { Plus, TrendingUp, Landmark, Globe, Banknote, Trash2, ArrowRight } from 'lucide-react';
+import { Plus, TrendingUp, Landmark, Globe, Banknote, Trash2, ArrowRight, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const MacroDashboard = () => {
@@ -115,7 +115,7 @@ const MacroDashboard = () => {
                   Période : {sim.annee_base} — {sim.annee_base + (sim.horizon || 3) - 1}
                 </p>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-3">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                   {modules.map(mod => (
                     <button
@@ -129,6 +129,14 @@ const MacroDashboard = () => {
                     </button>
                   ))}
                 </div>
+                <button
+                  onClick={() => navigate(`/macro/convergence/${sim.id}`)}
+                  className="flex items-center gap-2 w-full p-3 rounded-lg border border-accent/30 bg-accent/5 hover:bg-accent/10 transition-colors text-left group"
+                >
+                  <Target className="w-4 h-4 text-accent flex-shrink-0" />
+                  <span className="text-sm font-medium text-foreground">Critères de convergence UEMOA</span>
+                  <ArrowRight className="w-3 h-3 text-muted-foreground ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                </button>
               </CardContent>
             </Card>
           ))}
