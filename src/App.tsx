@@ -25,6 +25,7 @@ import DescriptivePage from "./pages/stats/DescriptivePage";
 import RegressionPage from "./pages/stats/RegressionPage";
 import TimeSeriesPage from "./pages/stats/TimeSeriesPage";
 import ImportPage from "./pages/stats/ImportPage";
+import EconometricTestsPage from "./pages/stats/EconometricTestsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -73,6 +74,7 @@ const App = () => (
               <Route path="descriptive" element={<DescriptivePage />} />
               <Route path="regression" element={<RegressionPage />} />
               <Route path="series" element={<TimeSeriesPage />} />
+              <Route path="tests" element={<EconometricTestsPage />} />
               <Route path="import" element={<ImportPage />} />
             </Route>
             <Route path="*" element={<NotFound />} />

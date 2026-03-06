@@ -12,7 +12,7 @@ import { CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
 const fmt = (n: number, d = 4) => n.toLocaleString('fr-FR', { maximumFractionDigits: d });
 
 const StatusIcon = ({ ok }: { ok: boolean }) =>
-  ok ? <CheckCircle2 className="w-5 h-5 text-green-600" /> : <XCircle className="w-5 h-5 text-destructive" />;
+  ok ? <CheckCircle2 className="w-5 h-5 text-primary" /> : <XCircle className="w-5 h-5 text-destructive" />;
 
 const EconometricTestsPage = () => {
   const datasets = useDatasets();
