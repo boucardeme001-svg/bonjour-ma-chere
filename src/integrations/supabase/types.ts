@@ -376,6 +376,80 @@ export type Database = {
           },
         ]
       }
+      simulation_valeurs: {
+        Row: {
+          annee: number
+          created_at: string
+          id: string
+          indicateur: string
+          module: string
+          simulation_id: string
+          valeur: number
+        }
+        Insert: {
+          annee: number
+          created_at?: string
+          id?: string
+          indicateur: string
+          module: string
+          simulation_id: string
+          valeur?: number
+        }
+        Update: {
+          annee?: number
+          created_at?: string
+          id?: string
+          indicateur?: string
+          module?: string
+          simulation_id?: string
+          valeur?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "simulation_valeurs_simulation_id_fkey"
+            columns: ["simulation_id"]
+            isOneToOne: false
+            referencedRelation: "simulations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      simulations: {
+        Row: {
+          annee_base: number
+          created_at: string
+          description: string | null
+          horizon: number
+          id: string
+          nom: string
+          statut: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          annee_base?: number
+          created_at?: string
+          description?: string | null
+          horizon?: number
+          id?: string
+          nom: string
+          statut?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          annee_base?: number
+          created_at?: string
+          description?: string | null
+          horizon?: number
+          id?: string
+          nom?: string
+          statut?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

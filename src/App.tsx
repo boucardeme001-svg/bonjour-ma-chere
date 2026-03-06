@@ -15,6 +15,8 @@ import Balance from "./pages/Balance";
 import Exercices from "./pages/Exercices";
 import Employes from "./pages/Employes";
 import BulletinsPaie from "./pages/BulletinsPaie";
+import MacroDashboard from "./pages/macro/MacroDashboard";
+import ModulePage from "./pages/macro/ModulePage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,6 +54,8 @@ const App = () => (
               <Route path="exercices" element={<Exercices />} />
               <Route path="employes" element={<Employes />} />
               <Route path="bulletins-paie" element={<BulletinsPaie />} />
+              <Route path="macro" element={<MacroDashboard />} />
+              <Route path="macro/:simulationId/:moduleKey" element={<ModulePage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
