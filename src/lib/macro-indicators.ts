@@ -61,6 +61,11 @@ export const TOFE_INDICATEURS: Indicateur[] = [
   // Financement
   { code: 'financement_interieur', libelle: 'Financement intérieur', type: 'input', unite: 'milliards', categorie: 'Financement' },
   { code: 'financement_exterieur', libelle: 'Financement extérieur', type: 'input', unite: 'milliards', categorie: 'Financement' },
+
+  // Encours dette
+  { code: 'dette_publique', libelle: 'Encours dette publique totale', type: 'input', unite: 'milliards', categorie: 'Dette publique' },
+  { code: 'dette_interieure', libelle: '  dont Dette intérieure', type: 'input', unite: 'milliards', categorie: 'Dette publique' },
+  { code: 'dette_exterieure', libelle: '  dont Dette extérieure', type: 'input', unite: 'milliards', categorie: 'Dette publique' },
 ];
 
 // ===== BALANCE DES PAIEMENTS =====
