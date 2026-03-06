@@ -18,6 +18,7 @@ import Employes from "./pages/Employes";
 import BulletinsPaie from "./pages/BulletinsPaie";
 import MacroDashboard from "./pages/macro/MacroDashboard";
 import ModulePage from "./pages/macro/ModulePage";
+import ConvergencePage from "./pages/macro/ConvergencePage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -58,6 +59,7 @@ const App = () => (
             </Route>
             <Route path="/macro" element={<ProtectedRoute><MacroLayout /></ProtectedRoute>}>
               <Route index element={<MacroDashboard />} />
+              <Route path="convergence/:simulationId" element={<ConvergencePage />} />
               <Route path=":simulationId/:moduleKey" element={<ModulePage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
