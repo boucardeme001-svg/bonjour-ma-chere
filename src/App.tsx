@@ -6,8 +6,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import AuthPage from "./pages/AuthPage";
 import AppLayout from "./components/AppLayout";
-import MacroLayout from "./components/MacroLayout";
-import StatsLayout from "./components/StatsLayout";
 import Dashboard from "./pages/Dashboard";
 import PlanComptable from "./pages/PlanComptable";
 import Journaux from "./pages/Journaux";
@@ -18,15 +16,6 @@ import Exercices from "./pages/Exercices";
 import Employes from "./pages/Employes";
 import BulletinsPaie from "./pages/BulletinsPaie";
 import MonProfil from "./pages/MonProfil";
-import MacroDashboard from "./pages/macro/MacroDashboard";
-import ModulePage from "./pages/macro/ModulePage";
-import ConvergencePage from "./pages/macro/ConvergencePage";
-import StatsHome from "./pages/stats/StatsHome";
-import DescriptivePage from "./pages/stats/DescriptivePage";
-import RegressionPage from "./pages/stats/RegressionPage";
-import TimeSeriesPage from "./pages/stats/TimeSeriesPage";
-import ImportPage from "./pages/stats/ImportPage";
-import EconometricTestsPage from "./pages/stats/EconometricTestsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -65,19 +54,6 @@ const App = () => (
               <Route path="employes" element={<Employes />} />
               <Route path="bulletins-paie" element={<BulletinsPaie />} />
               <Route path="profil" element={<MonProfil />} />
-            </Route>
-            <Route path="/macro" element={<ProtectedRoute><MacroLayout /></ProtectedRoute>}>
-              <Route index element={<MacroDashboard />} />
-              <Route path="convergence/:simulationId" element={<ConvergencePage />} />
-              <Route path=":simulationId/:moduleKey" element={<ModulePage />} />
-            </Route>
-            <Route path="/stats" element={<ProtectedRoute><StatsLayout /></ProtectedRoute>}>
-              <Route index element={<StatsHome />} />
-              <Route path="descriptive" element={<DescriptivePage />} />
-              <Route path="regression" element={<RegressionPage />} />
-              <Route path="series" element={<TimeSeriesPage />} />
-              <Route path="tests" element={<EconometricTestsPage />} />
-              <Route path="import" element={<ImportPage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
