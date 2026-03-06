@@ -1,6 +1,6 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { NavLink, useLocation } from 'react-router-dom';
-import { BarChart3, ScatterChart, TrendingUp, LogOut, ChevronsLeft, ChevronsRight, ArrowLeftRight, Upload, Calculator } from 'lucide-react';
+import { BarChart3, ScatterChart, TrendingUp, LogOut, ChevronsLeft, ChevronsRight, ArrowLeftRight, Upload, Calculator, FlaskConical } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -9,6 +9,7 @@ const navItems = [
   { to: '/stats/descriptive', label: 'Statistiques descriptives', icon: Calculator, end: false },
   { to: '/stats/regression', label: 'Régression & Économétrie', icon: ScatterChart, end: false },
   { to: '/stats/series', label: 'Séries temporelles', icon: TrendingUp, end: false },
+  { to: '/stats/tests', label: 'Tests économétriques', icon: FlaskConical, end: false },
   { to: '/stats/import', label: 'Importer des données', icon: Upload, end: false },
 ];
 
