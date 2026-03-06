@@ -26,11 +26,11 @@ export function addDataset(ds: DataSet) { _datasets = [..._datasets, ds]; _liste
 export function removeDataset(idx: number) { _datasets = _datasets.filter((_, i) => i !== idx); _listeners.forEach(l => l()); }
 export function useDatasets() {
   const [, setTick] = useState(0);
-  useState(() => {
+  useEffect(() => {
     const listener = () => setTick(t => t + 1);
     _listeners.push(listener);
     return () => { _listeners = _listeners.filter(l => l !== listener); };
-  });
+  }, []);
   return _datasets;
 }
 
