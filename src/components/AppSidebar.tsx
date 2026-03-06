@@ -1,6 +1,6 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { NavLink, useLocation } from 'react-router-dom';
-import { BookOpen, LayoutDashboard, List, FileText, BookOpenCheck, BarChart3, Settings, LogOut, ChevronsLeft, ChevronsRight, Users, Receipt, TrendingUp } from 'lucide-react';
+import { BookOpen, LayoutDashboard, List, FileText, BookOpenCheck, BarChart3, Settings, LogOut, ChevronsLeft, ChevronsRight, Users, Receipt, ArrowLeftRight } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -19,9 +19,6 @@ const paieItems = [
   { to: '/bulletins-paie', label: 'Bulletins de paie', icon: Receipt },
 ];
 
-const macroItems = [
-  { to: '/macro', label: 'Cadrage macro', icon: TrendingUp },
-];
 
 const AppSidebar = () => {
   const { signOut, user } = useAuth();
@@ -46,7 +43,6 @@ const AppSidebar = () => {
         {[
           { label: 'Comptabilité', items: comptaItems },
           { label: 'Paie', items: paieItems },
-          { label: 'Macro', items: macroItems },
         ].map(group => (
           <div key={group.label}>
             {!collapsed && <div className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-widest text-sidebar-muted">{group.label}</div>}
@@ -66,6 +62,10 @@ const AppSidebar = () => {
       </nav>
 
       <div className="border-t border-sidebar-border p-2 space-y-1">
+        <NavLink to="/macro" className="sidebar-link sidebar-link-inactive w-full">
+          <ArrowLeftRight className="w-5 h-5 flex-shrink-0" />
+          {!collapsed && <span>Cadrage macro</span>}
+        </NavLink>
         <button onClick={() => setCollapsed(!collapsed)} className="sidebar-link sidebar-link-inactive w-full">
           {collapsed ? <ChevronsRight className="w-5 h-5" /> : <><ChevronsLeft className="w-5 h-5" /><span>Réduire</span></>}
         </button>
