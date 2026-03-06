@@ -1,10 +1,10 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { NavLink, useLocation } from 'react-router-dom';
-import { BookOpen, LayoutDashboard, List, FileText, BookOpenCheck, BarChart3, Settings, LogOut, ChevronsLeft, ChevronsRight, Users, Receipt } from 'lucide-react';
+import { BookOpen, LayoutDashboard, List, FileText, BookOpenCheck, BarChart3, Settings, LogOut, ChevronsLeft, ChevronsRight, Users, Receipt, TrendingUp } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
-const navItems = [
+const comptaItems = [
   { to: '/', label: 'Tableau de bord', icon: LayoutDashboard },
   { to: '/plan-comptable', label: 'Plan comptable', icon: List },
   { to: '/journaux', label: 'Journaux', icon: BookOpenCheck },
@@ -12,8 +12,15 @@ const navItems = [
   { to: '/grand-livre', label: 'Grand livre', icon: BookOpen },
   { to: '/balance', label: 'Balance', icon: BarChart3 },
   { to: '/exercices', label: 'Exercices', icon: Settings },
+];
+
+const paieItems = [
   { to: '/employes', label: 'Employés', icon: Users },
   { to: '/bulletins-paie', label: 'Bulletins de paie', icon: Receipt },
+];
+
+const macroItems = [
+  { to: '/macro', label: 'Cadrage macro', icon: TrendingUp },
 ];
 
 const AppSidebar = () => {
@@ -35,16 +42,27 @@ const AppSidebar = () => {
         )}
       </div>
 
-      <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
-        {navItems.map((item) => {
-          const isActive = location.pathname === item.to;
-          return (
-            <NavLink key={item.to} to={item.to} className={cn("sidebar-link", isActive ? "sidebar-link-active" : "sidebar-link-inactive")}>
-              <item.icon className="w-5 h-5 flex-shrink-0" />
-              {!collapsed && <span className="truncate">{item.label}</span>}
-            </NavLink>
-          );
-        })}
+      <nav className="flex-1 px-2 py-4 space-y-4 overflow-y-auto">
+        {[
+          { label: 'Comptabilité', items: comptaItems },
+          { label: 'Paie', items: paieItems },
+          { label: 'Macro', items: macroItems },
+        ].map(group => (
+          <div key={group.label}>
+            {!collapsed && <div className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-widest text-sidebar-muted">{group.label}</div>}
+            <div className="space-y-0.5">
+              {group.items.map((item) => {
+                const isActive = location.pathname === item.to || (item.to === '/macro' && location.pathname.startsWith('/macro'));
+                return (
+                  <NavLink key={item.to} to={item.to} className={cn("sidebar-link", isActive ? "sidebar-link-active" : "sidebar-link-inactive")}>
+                    <item.icon className="w-5 h-5 flex-shrink-0" />
+                    {!collapsed && <span className="truncate">{item.label}</span>}
+                  </NavLink>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
 
       <div className="border-t border-sidebar-border p-2 space-y-1">
