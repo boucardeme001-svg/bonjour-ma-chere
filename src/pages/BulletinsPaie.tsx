@@ -146,49 +146,76 @@ const BulletinsPaie = () => {
 
 const BulletinDetail = ({ b }: { b: any }) => {
   const fmt = (n: number) => Number(n).toLocaleString('fr-FR', { minimumFractionDigits: 0 });
-  const Line = ({ label, value, bold, negative }: { label: string; value: number; bold?: boolean; negative?: boolean }) => (
-    <div className={`flex justify-between py-1 ${bold ? 'font-bold border-t border-border pt-2' : ''}`}>
-      <span>{label}</span>
-      <span className={`font-mono ${negative ? 'text-destructive' : ''}`}>{negative && value > 0 ? '-' : ''}{fmt(value)} FCFA</span>
+
+  const Line = ({ label, value, bold, negative, muted }: { label: string; value: number; bold?: boolean; negative?: boolean; muted?: boolean }) => (
+    <div className={`flex justify-between items-center py-2 px-3 ${bold ? 'font-semibold bg-muted/50 rounded-md mt-2' : ''} ${muted ? 'text-muted-foreground' : ''}`}>
+      <span className="text-sm">{label}</span>
+      <span className={`font-mono text-sm tabular-nums ${negative ? 'text-destructive' : ''} ${bold ? 'text-base' : ''}`}>
+        {negative && value > 0 ? '- ' : ''}{fmt(value)} <span className="text-xs text-muted-foreground">FCFA</span>
+      </span>
+    </div>
+  );
+
+  const Section = ({ title, children, icon }: { title: string; children: React.ReactNode; icon: string }) => (
+    <div className="rounded-xl border border-border/60 overflow-hidden">
+      <div className="px-4 py-2.5 bg-muted/30 border-b border-border/40 flex items-center gap-2">
+        <span className="text-base">{icon}</span>
+        <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{title}</span>
+      </div>
+      <div className="divide-y divide-border/30 p-1">
+        {children}
+      </div>
     </div>
   );
 
   return (
-    <div className="space-y-4 text-sm">
-      <div className="font-semibold text-base">{(b.employes as any)?.prenom} {(b.employes as any)?.nom} — {(b.employes as any)?.matricule}</div>
-
-      <div className="border rounded-lg p-4 space-y-1">
-        <div className="text-xs font-semibold text-muted-foreground uppercase mb-2">Rémunération</div>
-        <Line label="Salaire de base" value={Number(b.salaire_base)} />
-        {Number(b.sursalaire) > 0 && <Line label="Sursalaire" value={Number(b.sursalaire)} />}
-        {Number(b.prime_anciennete) > 0 && <Line label="Prime d'ancienneté" value={Number(b.prime_anciennete)} />}
-        {Number(b.prime_transport) > 0 && <Line label="Prime de transport" value={Number(b.prime_transport)} />}
-        {Number(b.autres_primes) > 0 && <Line label="Autres primes" value={Number(b.autres_primes)} />}
-        {Number(b.heures_sup_montant) > 0 && <Line label="Heures supplémentaires" value={Number(b.heures_sup_montant)} />}
-        <Line label="SALAIRE BRUT" value={Number(b.salaire_brut)} bold />
+    <div className="space-y-5 text-sm">
+      {/* En-tête employé */}
+      <div className="flex items-center gap-4 p-4 rounded-xl bg-muted/40 border border-border/40">
+        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg">
+          {(b.employes as any)?.prenom?.[0]}{(b.employes as any)?.nom?.[0]}
+        </div>
+        <div>
+          <div className="font-semibold text-base text-foreground">{(b.employes as any)?.prenom} {(b.employes as any)?.nom}</div>
+          <div className="text-xs text-muted-foreground font-mono">{(b.employes as any)?.matricule} • {b.periode}</div>
+        </div>
       </div>
 
-      <div className="border rounded-lg p-4 space-y-1">
-        <div className="text-xs font-semibold text-muted-foreground uppercase mb-2">Retenues salariales</div>
-        <Line label="IPRES Régime Général (5,6%)" value={Number(b.ipres_rg_sal)} negative />
-        {Number(b.ipres_crc_sal) > 0 && <Line label="IPRES CRC Cadres (2,4%)" value={Number(b.ipres_crc_sal)} negative />}
-        <Line label="Impôt sur le Revenu (IR)" value={Number(b.ir)} negative />
-        <Line label="TRIMF" value={Number(b.trimf)} negative />
-        <Line label="TOTAL RETENUES" value={Number(b.total_retenues_sal)} bold negative />
+      <div className="grid gap-4">
+        <Section title="Rémunération" icon="💰">
+          <Line label="Salaire de base" value={Number(b.salaire_base)} />
+          {Number(b.sursalaire) > 0 && <Line label="Sursalaire" value={Number(b.sursalaire)} />}
+          {Number(b.prime_anciennete) > 0 && <Line label="Prime d'ancienneté" value={Number(b.prime_anciennete)} />}
+          {Number(b.prime_transport) > 0 && <Line label="Prime de transport" value={Number(b.prime_transport)} />}
+          {Number(b.autres_primes) > 0 && <Line label="Autres primes" value={Number(b.autres_primes)} />}
+          {Number(b.heures_sup_montant) > 0 && <Line label="Heures supplémentaires" value={Number(b.heures_sup_montant)} />}
+          <Line label="Salaire brut" value={Number(b.salaire_brut)} bold />
+        </Section>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Section title="Retenues salariales" icon="📉">
+            <Line label="IPRES RG (5,6%)" value={Number(b.ipres_rg_sal)} negative />
+            {Number(b.ipres_crc_sal) > 0 && <Line label="IPRES CRC (2,4%)" value={Number(b.ipres_crc_sal)} negative />}
+            <Line label="IR" value={Number(b.ir)} negative />
+            <Line label="TRIMF" value={Number(b.trimf)} negative />
+            <Line label="Total retenues" value={Number(b.total_retenues_sal)} bold negative />
+          </Section>
+
+          <Section title="Charges patronales" icon="🏢">
+            <Line label="IPRES RG (8,4%)" value={Number(b.ipres_rg_pat)} muted />
+            {Number(b.ipres_crc_pat) > 0 && <Line label="IPRES CRC (3,6%)" value={Number(b.ipres_crc_pat)} muted />}
+            <Line label="CSS AT (1%)" value={Number(b.css_at)} muted />
+            <Line label="CSS PF (7%)" value={Number(b.css_pf)} muted />
+            <Line label="CFCE (3%)" value={Number(b.cfce)} muted />
+            <Line label="Total charges" value={Number(b.total_charges_pat)} bold />
+          </Section>
+        </div>
       </div>
 
-      <div className="border rounded-lg p-4 space-y-1">
-        <div className="text-xs font-semibold text-muted-foreground uppercase mb-2">Charges patronales</div>
-        <Line label="IPRES RG Patronal (8,4%)" value={Number(b.ipres_rg_pat)} />
-        {Number(b.ipres_crc_pat) > 0 && <Line label="IPRES CRC Patronal (3,6%)" value={Number(b.ipres_crc_pat)} />}
-        <Line label="CSS Accidents du travail (1%)" value={Number(b.css_at)} />
-        <Line label="CSS Prestations familiales (7%)" value={Number(b.css_pf)} />
-        <Line label="CFCE (3%)" value={Number(b.cfce)} />
-        <Line label="TOTAL CHARGES PATRONALES" value={Number(b.total_charges_pat)} bold />
-      </div>
-
-      <div className="bg-primary/10 rounded-lg p-4">
-        <Line label="NET À PAYER" value={Number(b.net_a_payer)} bold />
+      {/* Net à payer */}
+      <div className="rounded-xl bg-primary/10 border border-primary/20 p-5 flex justify-between items-center">
+        <span className="font-semibold text-base text-foreground">Net à payer</span>
+        <span className="font-mono font-bold text-xl text-primary">{fmt(Number(b.net_a_payer))} <span className="text-sm">FCFA</span></span>
       </div>
     </div>
   );
