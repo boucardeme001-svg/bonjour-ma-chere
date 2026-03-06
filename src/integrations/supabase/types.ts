@@ -14,6 +14,101 @@ export type Database = {
   }
   public: {
     Tables: {
+      bulletins_paie: {
+        Row: {
+          autres_primes: number
+          cfce: number
+          created_at: string
+          css_at: number
+          css_pf: number
+          date_paiement: string | null
+          employe_id: string
+          heures_sup_montant: number
+          id: string
+          ipres_crc_pat: number
+          ipres_crc_sal: number
+          ipres_rg_pat: number
+          ipres_rg_sal: number
+          ir: number
+          net_a_payer: number
+          periode: string
+          prime_anciennete: number
+          prime_transport: number
+          salaire_base: number
+          salaire_brut: number
+          statut: string
+          sursalaire: number
+          total_charges_pat: number
+          total_retenues_sal: number
+          trimf: number
+          user_id: string
+        }
+        Insert: {
+          autres_primes?: number
+          cfce?: number
+          created_at?: string
+          css_at?: number
+          css_pf?: number
+          date_paiement?: string | null
+          employe_id: string
+          heures_sup_montant?: number
+          id?: string
+          ipres_crc_pat?: number
+          ipres_crc_sal?: number
+          ipres_rg_pat?: number
+          ipres_rg_sal?: number
+          ir?: number
+          net_a_payer?: number
+          periode: string
+          prime_anciennete?: number
+          prime_transport?: number
+          salaire_base?: number
+          salaire_brut?: number
+          statut?: string
+          sursalaire?: number
+          total_charges_pat?: number
+          total_retenues_sal?: number
+          trimf?: number
+          user_id: string
+        }
+        Update: {
+          autres_primes?: number
+          cfce?: number
+          created_at?: string
+          css_at?: number
+          css_pf?: number
+          date_paiement?: string | null
+          employe_id?: string
+          heures_sup_montant?: number
+          id?: string
+          ipres_crc_pat?: number
+          ipres_crc_sal?: number
+          ipres_rg_pat?: number
+          ipres_rg_sal?: number
+          ir?: number
+          net_a_payer?: number
+          periode?: string
+          prime_anciennete?: number
+          prime_transport?: number
+          salaire_base?: number
+          salaire_brut?: number
+          statut?: string
+          sursalaire?: number
+          total_charges_pat?: number
+          total_retenues_sal?: number
+          trimf?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bulletins_paie_employe_id_fkey"
+            columns: ["employe_id"]
+            isOneToOne: false
+            referencedRelation: "employes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       comptes: {
         Row: {
           actif: boolean
@@ -103,6 +198,81 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      employes: {
+        Row: {
+          actif: boolean
+          categorie: string | null
+          created_at: string
+          date_embauche: string
+          date_fin_contrat: string | null
+          date_naissance: string | null
+          echelon: string | null
+          id: string
+          is_cadre: boolean
+          lieu_naissance: string | null
+          matricule: string
+          nom: string
+          nombre_enfants: number
+          numero_css: string | null
+          numero_ipres: string | null
+          poste: string | null
+          prenom: string
+          salaire_base: number
+          sexe: string
+          situation_familiale: string
+          type_contrat: string
+          user_id: string
+        }
+        Insert: {
+          actif?: boolean
+          categorie?: string | null
+          created_at?: string
+          date_embauche: string
+          date_fin_contrat?: string | null
+          date_naissance?: string | null
+          echelon?: string | null
+          id?: string
+          is_cadre?: boolean
+          lieu_naissance?: string | null
+          matricule: string
+          nom: string
+          nombre_enfants?: number
+          numero_css?: string | null
+          numero_ipres?: string | null
+          poste?: string | null
+          prenom: string
+          salaire_base?: number
+          sexe?: string
+          situation_familiale?: string
+          type_contrat?: string
+          user_id: string
+        }
+        Update: {
+          actif?: boolean
+          categorie?: string | null
+          created_at?: string
+          date_embauche?: string
+          date_fin_contrat?: string | null
+          date_naissance?: string | null
+          echelon?: string | null
+          id?: string
+          is_cadre?: boolean
+          lieu_naissance?: string | null
+          matricule?: string
+          nom?: string
+          nombre_enfants?: number
+          numero_css?: string | null
+          numero_ipres?: string | null
+          poste?: string | null
+          prenom?: string
+          salaire_base?: number
+          sexe?: string
+          situation_familiale?: string
+          type_contrat?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       exercices: {
         Row: {
