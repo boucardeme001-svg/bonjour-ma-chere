@@ -13,6 +13,9 @@ import SaisieEcritures from "./pages/SaisieEcritures";
 import GrandLivre from "./pages/GrandLivre";
 import Balance from "./pages/Balance";
 import Exercices from "./pages/Exercices";
+import Bilan from "./pages/Bilan";
+import CompteResultat from "./pages/CompteResultat";
+import Tafire from "./pages/Tafire";
 import Employes from "./pages/Employes";
 import BulletinsPaie from "./pages/BulletinsPaie";
 import MonProfil from "./pages/MonProfil";
@@ -51,6 +54,9 @@ const App = () => (
               <Route path="grand-livre" element={<GrandLivre />} />
               <Route path="balance" element={<Balance />} />
               <Route path="exercices" element={<Exercices />} />
+              <Route path="bilan" element={<Bilan />} />
+              <Route path="compte-resultat" element={<CompteResultat />} />
+              <Route path="tafire" element={<Tafire />} />
               <Route path="employes" element={<Employes />} />
               <Route path="bulletins-paie" element={<BulletinsPaie />} />
               <Route path="profil" element={<MonProfil />} />

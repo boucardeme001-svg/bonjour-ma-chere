@@ -1,6 +1,6 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { NavLink, useLocation } from 'react-router-dom';
-import { BookOpen, LayoutDashboard, List, FileText, BookOpenCheck, BarChart3, Settings, LogOut, ChevronsLeft, ChevronsRight, Users, Receipt, UserCircle } from 'lucide-react';
+import { BookOpen, LayoutDashboard, List, FileText, BookOpenCheck, BarChart3, Settings, LogOut, ChevronsLeft, ChevronsRight, Users, Receipt, UserCircle, FileSpreadsheet, TrendingUp, ArrowDownUp } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -12,6 +12,12 @@ const comptaItems = [
   { to: '/grand-livre', label: 'Grand livre', icon: BookOpen },
   { to: '/balance', label: 'Balance', icon: BarChart3 },
   { to: '/exercices', label: 'Exercices', icon: Settings },
+];
+
+const etatsItems = [
+  { to: '/bilan', label: 'Bilan', icon: FileSpreadsheet },
+  { to: '/compte-resultat', label: 'Compte de résultat', icon: TrendingUp },
+  { to: '/tafire', label: 'TAFIRE', icon: ArrowDownUp },
 ];
 
 const paieItems = [
@@ -42,6 +48,7 @@ const AppSidebar = () => {
       <nav className="flex-1 px-2 py-4 space-y-4 overflow-y-auto">
         {[
           { label: 'Comptabilité', items: comptaItems },
+          { label: 'États financiers', items: etatsItems },
           { label: 'Paie', items: paieItems },
         ].map(group => (
           <div key={group.label}>
