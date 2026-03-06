@@ -5,13 +5,17 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, User, Building2 } from 'lucide-react';
 
 const AuthPage = () => {
   const { signIn, signUp } = useAuth();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [nom, setNom] = useState('');
+  const [prenom, setPrenom] = useState('');
+  const [entreprise, setEntreprise] = useState('');
+  const [telephone, setTelephone] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -19,7 +23,7 @@ const AuthPage = () => {
     setLoading(true);
     try {
       if (isSignUp) {
-        await signUp(email, password);
+        await signUp(email, password, { nom, prenom, entreprise, telephone });
         toast.success('Compte créé ! Vérifiez votre email pour confirmer.');
       } else {
         await signIn(email, password);
@@ -45,13 +49,45 @@ const AuthPage = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>{isSignUp ? 'Créer un compte' : 'Se connecter'}</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              {isSignUp ? (
+                <><User className="w-5 h-5" /> Créer un compte</>
+              ) : (
+                'Se connecter'
+              )}
+            </CardTitle>
             <CardDescription>
-              {isSignUp ? 'Entrez vos informations pour créer un compte' : 'Entrez vos identifiants pour accéder à votre espace'}
+              {isSignUp
+                ? 'Remplissez vos informations pour créer votre espace comptable'
+                : 'Entrez vos identifiants pour accéder à votre espace'}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
+              {isSignUp && (
+                <>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-2">
+                      <Label htmlFor="prenom">Prénom</Label>
+                      <Input id="prenom" value={prenom} onChange={(e) => setPrenom(e.target.value)} placeholder="Moussa" required />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="nom">Nom</Label>
+                      <Input id="nom" value={nom} onChange={(e) => setNom(e.target.value)} placeholder="Diallo" required />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="entreprise" className="flex items-center gap-1">
+                      <Building2 className="w-3.5 h-3.5" /> Entreprise
+                    </Label>
+                    <Input id="entreprise" value={entreprise} onChange={(e) => setEntreprise(e.target.value)} placeholder="Nom de votre entreprise" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="telephone">Téléphone</Label>
+                    <Input id="telephone" type="tel" value={telephone} onChange={(e) => setTelephone(e.target.value)} placeholder="+221 77 000 00 00" />
+                  </div>
+                </>
+              )}
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="votre@email.com" required />

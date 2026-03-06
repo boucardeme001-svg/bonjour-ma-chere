@@ -376,6 +376,36 @@ export type Database = {
           },
         ]
       }
+      profiles: {
+        Row: {
+          created_at: string
+          entreprise: string | null
+          id: string
+          nom: string
+          prenom: string
+          telephone: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          entreprise?: string | null
+          id?: string
+          nom?: string
+          prenom?: string
+          telephone?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          entreprise?: string | null
+          id?: string
+          nom?: string
+          prenom?: string
+          telephone?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       simulation_valeurs: {
         Row: {
           annee: number
