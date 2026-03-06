@@ -19,7 +19,7 @@ const DescriptivePage = () => {
   const datasets = useDatasets();
   const [dsIdx, setDsIdx] = useState<string>('0');
   const [varIdx, setVarIdx] = useState<string>('0');
-  const [var2Idx, setVar2Idx] = useState<string>('');
+  const [var2Idx, setVar2Idx] = useState<string>('__none__');
 
   const ds = datasets[Number(dsIdx)];
   const colData = useMemo(() => {
@@ -33,7 +33,7 @@ const DescriptivePage = () => {
   }, [colData]);
 
   const corr = useMemo(() => {
-    if (!ds || var2Idx === '' || var2Idx === varIdx) return null;
+    if (!ds || var2Idx === '__none__' || var2Idx === varIdx) return null;
     const col2 = ds.data.map(row => row[Number(var2Idx)] ?? 0);
     return correlation(colData, col2);
   }, [ds, colData, varIdx, var2Idx]);
@@ -71,7 +71,7 @@ const DescriptivePage = () => {
         <div className="flex flex-wrap gap-4">
           <div className="min-w-[200px]">
             <label className="text-xs font-medium text-muted-foreground mb-1 block">Dataset</label>
-            <Select value={dsIdx} onValueChange={v => { setDsIdx(v); setVarIdx('0'); setVar2Idx(''); }}>
+            <Select value={dsIdx} onValueChange={v => { setDsIdx(v); setVarIdx('0'); setVar2Idx('__none__'); }}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>{datasets.map((d, i) => <SelectItem key={i} value={String(i)}>{d.name}</SelectItem>)}</SelectContent>
             </Select>
@@ -88,7 +88,7 @@ const DescriptivePage = () => {
             <Select value={var2Idx} onValueChange={setVar2Idx}>
               <SelectTrigger><SelectValue placeholder="Aucune" /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Aucune</SelectItem>
+                <SelectItem value="__none__">Aucune</SelectItem>
                 {ds?.headers.map((h, i) => <SelectItem key={i} value={String(i)}>{h}</SelectItem>)}
               </SelectContent>
             </Select>
