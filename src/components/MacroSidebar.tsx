@@ -1,6 +1,6 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { NavLink, useLocation } from 'react-router-dom';
-import { TrendingUp, Landmark, Globe, Banknote, LogOut, ChevronsLeft, ChevronsRight, LayoutDashboard, ArrowLeftRight } from 'lucide-react';
+import { TrendingUp, Landmark, Globe, Banknote, LogOut, ChevronsLeft, ChevronsRight, LayoutDashboard, ArrowLeftRight, BarChart3 } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -67,6 +67,10 @@ const MacroSidebar = () => {
       </nav>
 
       <div className="border-t border-sidebar-border p-2 space-y-1">
+        <NavLink to="/stats" className="sidebar-link sidebar-link-inactive w-full">
+          <BarChart3 className="w-5 h-5 flex-shrink-0" />
+          {!collapsed && <span>Statistiques</span>}
+        </NavLink>
         <NavLink to="/" className="sidebar-link sidebar-link-inactive w-full">
           <ArrowLeftRight className="w-5 h-5 flex-shrink-0" />
           {!collapsed && <span>Comptabilité</span>}
