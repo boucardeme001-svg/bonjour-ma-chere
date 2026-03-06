@@ -69,6 +69,7 @@ const AppSidebar = () => {
         <NavLink to="/macro" className="sidebar-link sidebar-link-inactive w-full">
           <ArrowLeftRight className="w-5 h-5 flex-shrink-0" />
           {!collapsed && <span>Cadrage macro</span>}
+        </NavLink>
         <button onClick={() => setCollapsed(!collapsed)} className="sidebar-link sidebar-link-inactive w-full">
           {collapsed ? <ChevronsRight className="w-5 h-5" /> : <><ChevronsLeft className="w-5 h-5" /><span>Réduire</span></>}
         </button>
