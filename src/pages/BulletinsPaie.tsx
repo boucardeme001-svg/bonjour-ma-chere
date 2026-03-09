@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
-import { Plus, Eye, Printer } from 'lucide-react';
+import { Plus, Eye, Printer, Printer } from 'lucide-react';
 import { calculerBulletin } from '@/lib/paie-senegal';
 
 const BulletinsPaie = () => {
@@ -30,7 +30,7 @@ const BulletinsPaie = () => {
   const load = async () => {
     if (!user) return;
     const [b, e] = await Promise.all([
-      supabase.from('bulletins_paie').select('*, employes(matricule, prenom, nom)').eq('user_id', user.id).order('created_at', { ascending: false }),
+      supabase.from('bulletins_paie').select('*, employes(matricule, pr, situation_familiale, nombre_enfants, numero_css, poste, date_embaucheenom, nom)').eq('user_id', user.id).order('created_at', { ascending: false }),
       supabase.from('employes').select('*').eq('user_id', user.id).eq('actif', true).order('nom'),
     ]);
     setBulletins(b.data || []);
