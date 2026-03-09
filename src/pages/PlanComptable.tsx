@@ -91,12 +91,14 @@ const PlanComptable = () => {
   const fetchComptes = async () => {
     if (!user) return;
     const { data } = await supabase.from('comptes').select('*').eq('user_id', user.id).order('numero');
-    setComptes(data || []);
+    if (data && data.length === 0) {
+      await autoInitialize();
+    } else {
+      setComptes(data || []);
+    }
   };
 
-  useEffect(() => { fetchComptes(); }, [user]);
-
-  const handleInitialize = async () => {
+  const autoInitialize = async () => {
     if (!user) return;
     setLoading(true);
     const rows = DEFAULT_ACCOUNTS.map((a) => ({ ...a, user_id: user.id }));
@@ -104,11 +106,14 @@ const PlanComptable = () => {
     if (error) {
       toast.error('Erreur: ' + error.message);
     } else {
-      toast.success(`${rows.length} comptes SYSCOHADA initialisés !`);
-      fetchComptes();
+      toast.success(`${rows.length} comptes SYSCOHADA importés automatiquement !`);
+      const { data } = await supabase.from('comptes').select('*').eq('user_id', user.id).order('numero');
+      setComptes(data || []);
     }
     setLoading(false);
   };
+
+  useEffect(() => { fetchComptes(); }, [user]);
 
   const handleAdd = async () => {
     if (!user) return;
