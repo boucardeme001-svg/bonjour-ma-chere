@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
-import { Plus, Eye } from 'lucide-react';
+import { Plus, Eye, Printer } from 'lucide-react';
 import { calculerBulletin } from '@/lib/paie-senegal';
 
 const BulletinsPaie = () => {
