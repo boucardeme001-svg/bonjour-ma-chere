@@ -69,6 +69,84 @@ const BulletinsPaie = () => {
 
   const fmt = (n: number) => Number(n).toLocaleString('fr-FR');
 
+  const handlePrint = () => {
+    const b = viewBulletin;
+    if (!b) return;
+    const emp = b.employes as any;
+    const sitLabel: Record<string, string> = { celibataire: 'Célibataire', marie: 'Marié(e)', divorce: 'Divorcé(e)', veuf: 'Veuf/Veuve' };
+    const win = window.open('', '_blank');
+    if (!win) return;
+
+    const line = (label: string, val: number, bold = false, neg = false) =>
+      `<div class="line ${bold ? 'bold' : ''} ${neg ? 'negative' : ''}"><span>${label}</span><span class="value">${neg && val > 0 ? '- ' : ''}${Number(val).toLocaleString('fr-FR')} FCFA</span></div>`;
+
+    let html = `<html><head><title>Bulletin de paie - ${emp?.prenom} ${emp?.nom}</title>
+      <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; padding: 24px; font-size: 12px; color: #1a1a1a; }
+        .header { text-align: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #333; }
+        .section { border: 1px solid #ddd; border-radius: 6px; margin-bottom: 12px; overflow: hidden; }
+        .section-title { background: #f5f5f5; padding: 6px 12px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #ddd; }
+        .line { display: flex; justify-content: space-between; padding: 5px 12px; border-bottom: 1px solid #f0f0f0; }
+        .line:last-child { border-bottom: none; }
+        .line.bold { font-weight: 700; background: #f9f9f9; }
+        .line.negative .value { color: #c00; }
+        .value { font-family: 'Courier New', monospace; }
+        .net { background: #e8f4e8; border: 2px solid #2a7d2a; border-radius: 8px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+        .net .value { font-size: 18px; font-weight: 800; color: #2a7d2a; }
+        .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; font-size: 11px; }
+        .info-grid .lbl { color: #666; }
+        @media print { body { padding: 12px; } }
+      </style></head><body>`;
+
+    html += `<div class="header"><strong style="font-size:16px">BULLETIN DE PAIE</strong><br/><span style="color:#666">Période : ${b.periode}</span></div>`;
+
+    html += `<div class="section"><div class="section-title">Informations employé</div>
+      <div style="padding:10px 12px"><div class="info-grid">
+        <div><span class="lbl">Nom :</span> <strong>${emp?.prenom || ''} ${emp?.nom || ''}</strong></div>
+        <div><span class="lbl">Matricule :</span> ${emp?.matricule || '—'}</div>
+        <div><span class="lbl">Situation familiale :</span> ${sitLabel[emp?.situation_familiale] || emp?.situation_familiale || '—'}</div>
+        <div><span class="lbl">Enfants à charge :</span> ${emp?.nombre_enfants ?? 0}</div>
+        <div><span class="lbl">N° Sécurité sociale (CSS) :</span> ${emp?.numero_css || '—'}</div>
+        <div><span class="lbl">Poste :</span> ${emp?.poste || '—'}</div>
+      </div></div></div>`;
+
+    html += '<div class="section"><div class="section-title">Rémunération</div>';
+    html += line('Salaire de base', Number(b.salaire_base));
+    if (Number(b.sursalaire) > 0) html += line('Sursalaire', Number(b.sursalaire));
+    if (Number(b.prime_anciennete) > 0) html += line("Prime d'ancienneté", Number(b.prime_anciennete));
+    if (Number(b.prime_transport) > 0) html += line('Prime de transport', Number(b.prime_transport));
+    if (Number(b.autres_primes) > 0) html += line('Autres primes', Number(b.autres_primes));
+    if (Number(b.heures_sup_montant) > 0) html += line('Heures supplémentaires', Number(b.heures_sup_montant));
+    html += line('Salaire brut', Number(b.salaire_brut), true);
+    html += '</div>';
+
+    html += '<div class="grid2">';
+    html += '<div class="section"><div class="section-title">Retenues salariales</div>';
+    html += line('IPRES RG (5,6%)', Number(b.ipres_rg_sal), false, true);
+    if (Number(b.ipres_crc_sal) > 0) html += line('IPRES CRC (2,4%)', Number(b.ipres_crc_sal), false, true);
+    html += line('IR', Number(b.ir), false, true);
+    html += line('TRIMF', Number(b.trimf), false, true);
+    html += line('Total retenues', Number(b.total_retenues_sal), true, true);
+    html += '</div>';
+    html += '<div class="section"><div class="section-title">Charges patronales</div>';
+    html += line('IPRES RG (8,4%)', Number(b.ipres_rg_pat));
+    if (Number(b.ipres_crc_pat) > 0) html += line('IPRES CRC (3,6%)', Number(b.ipres_crc_pat));
+    html += line('CSS AT (1%)', Number(b.css_at));
+    html += line('CSS PF (7%)', Number(b.css_pf));
+    html += line('CFCE (3%)', Number(b.cfce));
+    html += line('Total charges', Number(b.total_charges_pat), true);
+    html += '</div></div>';
+
+    html += `<div class="net"><span style="font-weight:700;font-size:14px">Net à payer</span><span class="value">${Number(b.net_a_payer).toLocaleString('fr-FR')} FCFA</span></div>`;
+    html += '</body></html>';
+
+    win.document.write(html);
+    win.document.close();
+    setTimeout(() => win.print(), 300);
+  };
+
   return (
     <div className="animate-fade-in space-y-6">
       <div className="flex items-center justify-between">
