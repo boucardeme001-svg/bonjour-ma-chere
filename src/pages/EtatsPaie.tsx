@@ -86,6 +86,109 @@ const EtatsPaie = () => {
   const empName = (b: Bulletin) =>
     b.employes ? `${b.employes.prenom} ${b.employes.nom}` : '—';
 
+  const [transferring, setTransferring] = useState(false);
+
+  const handleTransferCompta = async () => {
+    if (!user || filtered.length === 0) return;
+    setTransferring(true);
+    try {
+      // 1. Find an open exercice covering this period
+      const periodeParts = selectedPeriode.split('-'); // "2025-01" format
+      const periodeDate = `${selectedPeriode}-01`;
+      const { data: exercices } = await supabase
+        .from('exercices')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('cloture', false)
+        .lte('date_debut', periodeDate)
+        .gte('date_fin', periodeDate);
+
+      if (!exercices || exercices.length === 0) {
+        toast.error('Aucun exercice ouvert ne couvre cette période');
+        setTransferring(false);
+        return;
+      }
+      const exerciceId = exercices[0].id;
+
+      // 2. Find or create OD journal
+      let { data: journaux } = await supabase
+        .from('journaux')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('code', 'OD');
+
+      let journalId: string;
+      if (journaux && journaux.length > 0) {
+        journalId = journaux[0].id;
+      } else {
+        const { data: newJ, error: errJ } = await supabase
+          .from('journaux')
+          .insert({ user_id: user.id, code: 'OD', libelle: 'Opérations Diverses', type: 'od' })
+          .select('id')
+          .single();
+        if (errJ || !newJ) { toast.error('Erreur création journal OD'); setTransferring(false); return; }
+        journalId = newJ.id;
+      }
+
+      // 3. Find account IDs by numero
+      const accountNums = ['661', '664', '421', '431', '447'];
+      const { data: comptes } = await supabase
+        .from('comptes')
+        .select('id, numero')
+        .eq('user_id', user.id)
+        .in('numero', accountNums);
+
+      const compteMap = new Map((comptes || []).map(c => [c.numero, c.id]));
+      const missing = accountNums.filter(n => !compteMap.has(n));
+      if (missing.length > 0) {
+        toast.error(`Comptes manquants dans le plan comptable : ${missing.join(', ')}`);
+        setTransferring(false);
+        return;
+      }
+
+      // 4. Calculate totals for accounting entry
+      const totalBrut = totals.salaire_brut;
+      const totalChargesPat = totals.total_charges_pat;
+      const totalNet = totals.net_a_payer;
+      const totalOrganismes = totals.ipres_rg_sal + totals.ipres_crc_sal + totals.ipres_rg_pat + totals.ipres_crc_pat + totals.css_at + totals.css_pf + totals.cfce;
+      const totalImpots = totals.ir + totals.trimf;
+
+      // 5. Create ecriture
+      const { data: ecriture, error: errE } = await supabase
+        .from('ecritures')
+        .insert({
+          user_id: user.id,
+          exercice_id: exerciceId,
+          journal_id: journalId,
+          date_ecriture: `${selectedPeriode}-28`,
+          libelle: `Paie ${selectedPeriode}`,
+          numero_piece: `PAIE-${selectedPeriode}`,
+          statut: 'brouillon',
+        })
+        .select('id')
+        .single();
+
+      if (errE || !ecriture) { toast.error('Erreur création écriture'); setTransferring(false); return; }
+
+      // 6. Create lignes
+      const lignes = [
+        { ecriture_id: ecriture.id, compte_id: compteMap.get('661')!, libelle: 'Rémunérations brutes', debit: totalBrut, credit: 0 },
+        { ecriture_id: ecriture.id, compte_id: compteMap.get('664')!, libelle: 'Charges sociales patronales', debit: totalChargesPat, credit: 0 },
+        { ecriture_id: ecriture.id, compte_id: compteMap.get('421')!, libelle: 'Net à payer personnel', debit: 0, credit: totalNet },
+        { ecriture_id: ecriture.id, compte_id: compteMap.get('431')!, libelle: 'Organismes sociaux (IPRES/CSS/CFCE)', debit: 0, credit: totalOrganismes },
+        { ecriture_id: ecriture.id, compte_id: compteMap.get('447')!, libelle: 'Impôts retenus (IR/TRIMF)', debit: 0, credit: totalImpots },
+      ];
+
+      const { error: errL } = await supabase.from('lignes_ecriture').insert(lignes);
+      if (errL) { toast.error('Erreur création lignes écriture'); setTransferring(false); return; }
+
+      toast.success(`Écriture de paie ${selectedPeriode} transférée en comptabilité`);
+    } catch (err) {
+      toast.error('Erreur lors du transfert');
+    }
+    setTransferring(false);
+  };
+
   const TotalRow = ({ cells }: { cells: (string | number)[] }) => (
     <TableRow className="bg-muted/50 font-semibold border-t-2 border-border">
       {cells.map((c, i) => (
@@ -120,6 +223,10 @@ const EtatsPaie = () => {
             </SelectContent>
           </Select>
           <Badge variant="secondary">{filtered.length} bulletin(s)</Badge>
+          <Button onClick={handleTransferCompta} disabled={transferring || filtered.length === 0}>
+            <BookOpen className="h-4 w-4 mr-2" />
+            {transferring ? 'Transfert...' : 'Transférer en compta'}
+          </Button>
         </div>
       </div>
 
