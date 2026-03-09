@@ -255,16 +255,25 @@ const BulletinDetail = ({ b }: { b: any }) => {
     </div>
   );
 
+  const sitLabel: Record<string, string> = { celibataire: 'Célibataire', marie: 'Marié(e)', divorce: 'Divorcé(e)', veuf: 'Veuf/Veuve' };
+  const emp = b.employes as any;
+
   return (
     <div className="space-y-5 text-sm">
       {/* En-tête employé */}
       <div className="flex items-center gap-4 p-4 rounded-xl bg-muted/40 border border-border/40">
         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg">
-          {(b.employes as any)?.prenom?.[0]}{(b.employes as any)?.nom?.[0]}
+          {emp?.prenom?.[0]}{emp?.nom?.[0]}
         </div>
-        <div>
-          <div className="font-semibold text-base text-foreground">{(b.employes as any)?.prenom} {(b.employes as any)?.nom}</div>
-          <div className="text-xs text-muted-foreground font-mono">{(b.employes as any)?.matricule} • {b.periode}</div>
+        <div className="flex-1">
+          <div className="font-semibold text-base text-foreground">{emp?.prenom} {emp?.nom}</div>
+          <div className="text-xs text-muted-foreground font-mono">{emp?.matricule} • {b.periode}</div>
+          <div className="mt-2 grid grid-cols-2 gap-x-6 gap-y-1 text-xs text-muted-foreground">
+            <div>Situation : <span className="text-foreground font-medium">{sitLabel[emp?.situation_familiale] || emp?.situation_familiale || '—'}</span></div>
+            <div>Enfants : <span className="text-foreground font-medium">{emp?.nombre_enfants ?? 0}</span></div>
+            <div>N° CSS : <span className="text-foreground font-medium font-mono">{emp?.numero_css || '—'}</span></div>
+            <div>Poste : <span className="text-foreground font-medium">{emp?.poste || '—'}</span></div>
+          </div>
         </div>
       </div>
 
