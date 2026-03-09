@@ -1,6 +1,6 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { NavLink, useLocation } from 'react-router-dom';
-import { BookOpen, LayoutDashboard, List, FileText, BookOpenCheck, BarChart3, Settings, LogOut, ChevronsLeft, ChevronsRight, Users, Receipt, UserCircle, FileSpreadsheet, TrendingUp, ArrowDownUp } from 'lucide-react';
+import { BookOpen, LayoutDashboard, List, FileText, BookOpenCheck, BarChart3, Settings, LogOut, ChevronsLeft, ChevronsRight, Users, Receipt, UserCircle, FileSpreadsheet, TrendingUp, ArrowDownUp, ClipboardList } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -23,6 +23,7 @@ const etatsItems = [
 const paieItems = [
   { to: '/employes', label: 'Employés', icon: Users },
   { to: '/bulletins-paie', label: 'Bulletins de paie', icon: Receipt },
+  { to: '/etats-paie', label: 'États de paie', icon: ClipboardList },
 ];
 
 

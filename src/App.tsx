@@ -18,6 +18,7 @@ import CompteResultat from "./pages/CompteResultat";
 import Tafire from "./pages/Tafire";
 import Employes from "./pages/Employes";
 import BulletinsPaie from "./pages/BulletinsPaie";
+import EtatsPaie from "./pages/EtatsPaie";
 import MonProfil from "./pages/MonProfil";
 import NotFound from "./pages/NotFound";
 
@@ -59,6 +60,7 @@ const App = () => (
               <Route path="tafire" element={<Tafire />} />
               <Route path="employes" element={<Employes />} />
               <Route path="bulletins-paie" element={<BulletinsPaie />} />
+              <Route path="etats-paie" element={<EtatsPaie />} />
               <Route path="profil" element={<MonProfil />} />
             </Route>
             <Route path="*" element={<NotFound />} />
