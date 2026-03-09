@@ -91,12 +91,14 @@ const PlanComptable = () => {
   const fetchComptes = async () => {
     if (!user) return;
     const { data } = await supabase.from('comptes').select('*').eq('user_id', user.id).order('numero');
-    setComptes(data || []);
+    if (data && data.length === 0) {
+      await autoInitialize();
+    } else {
+      setComptes(data || []);
+    }
   };
 
-  useEffect(() => { fetchComptes(); }, [user]);
-
-  const handleInitialize = async () => {
+  const autoInitialize = async () => {
     if (!user) return;
     setLoading(true);
     const rows = DEFAULT_ACCOUNTS.map((a) => ({ ...a, user_id: user.id }));
@@ -104,11 +106,14 @@ const PlanComptable = () => {
     if (error) {
       toast.error('Erreur: ' + error.message);
     } else {
-      toast.success(`${rows.length} comptes SYSCOHADA initialisés !`);
-      fetchComptes();
+      toast.success(`${rows.length} comptes SYSCOHADA importés automatiquement !`);
+      const { data } = await supabase.from('comptes').select('*').eq('user_id', user.id).order('numero');
+      setComptes(data || []);
     }
     setLoading(false);
   };
+
+  useEffect(() => { fetchComptes(); }, [user]);
 
   const handleAdd = async () => {
     if (!user) return;
@@ -134,12 +139,6 @@ const PlanComptable = () => {
       <div className="flex items-center justify-between mb-6">
         <h1 className="page-header">Plan comptable SYSCOHADA</h1>
         <div className="flex gap-2">
-          {comptes.length === 0 && (
-            <Button onClick={handleInitialize} disabled={loading} variant="outline">
-              <Upload className="w-4 h-4 mr-2" />
-              {loading ? 'Initialisation...' : 'Initialiser SYSCOHADA'}
-            </Button>
-          )}
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
               <Button><Plus className="w-4 h-4 mr-2" />Ajouter</Button>
