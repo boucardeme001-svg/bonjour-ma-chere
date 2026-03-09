@@ -139,12 +139,6 @@ const PlanComptable = () => {
       <div className="flex items-center justify-between mb-6">
         <h1 className="page-header">Plan comptable SYSCOHADA</h1>
         <div className="flex gap-2">
-          {comptes.length === 0 && (
-            <Button onClick={handleInitialize} disabled={loading} variant="outline">
-              <Upload className="w-4 h-4 mr-2" />
-              {loading ? 'Initialisation...' : 'Initialiser SYSCOHADA'}
-            </Button>
-          )}
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
               <Button><Plus className="w-4 h-4 mr-2" />Ajouter</Button>
