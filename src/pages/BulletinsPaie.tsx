@@ -30,7 +30,7 @@ const BulletinsPaie = () => {
   const load = async () => {
     if (!user) return;
     const [b, e] = await Promise.all([
-      supabase.from('bulletins_paie').select('*, employes(matricule, pr, situation_familiale, nombre_enfants, numero_css, poste, date_embaucheenom, nom)').eq('user_id', user.id).order('created_at', { ascending: false }),
+      supabase.from('bulletins_paie').select('*, employes(matricule, prenom, nom, situation_familiale, nombre_enfants, numero_css, numero_ipres, poste, date_embauche)').eq('user_id', user.id).order('created_at', { ascending: false }),
       supabase.from('employes').select('*').eq('user_id', user.id).eq('actif', true).order('nom'),
     ]);
     setBulletins(b.data || []);
@@ -109,6 +109,7 @@ const BulletinsPaie = () => {
         <div><span class="lbl">Situation familiale :</span> ${sitLabel[emp?.situation_familiale] || emp?.situation_familiale || '—'}</div>
         <div><span class="lbl">Enfants à charge :</span> ${emp?.nombre_enfants ?? 0}</div>
         <div><span class="lbl">N° Sécurité sociale (CSS) :</span> ${emp?.numero_css || '—'}</div>
+        <div><span class="lbl">N° IPRES :</span> ${emp?.numero_ipres || '—'}</div>
         <div><span class="lbl">Poste :</span> ${emp?.poste || '—'}</div>
       </div></div></div>`;
 
@@ -272,6 +273,7 @@ const BulletinDetail = ({ b }: { b: any }) => {
             <div>Situation : <span className="text-foreground font-medium">{sitLabel[emp?.situation_familiale] || emp?.situation_familiale || '—'}</span></div>
             <div>Enfants : <span className="text-foreground font-medium">{emp?.nombre_enfants ?? 0}</span></div>
             <div>N° CSS : <span className="text-foreground font-medium font-mono">{emp?.numero_css || '—'}</span></div>
+            <div>N° IPRES : <span className="text-foreground font-medium font-mono">{emp?.numero_ipres || '—'}</span></div>
             <div>Poste : <span className="text-foreground font-medium">{emp?.poste || '—'}</span></div>
           </div>
         </div>
