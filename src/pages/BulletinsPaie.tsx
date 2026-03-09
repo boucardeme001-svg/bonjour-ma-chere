@@ -109,6 +109,7 @@ const BulletinsPaie = () => {
         <div><span class="lbl">Situation familiale :</span> ${sitLabel[emp?.situation_familiale] || emp?.situation_familiale || '—'}</div>
         <div><span class="lbl">Enfants à charge :</span> ${emp?.nombre_enfants ?? 0}</div>
         <div><span class="lbl">N° Sécurité sociale (CSS) :</span> ${emp?.numero_css || '—'}</div>
+        <div><span class="lbl">N° IPRES :</span> ${emp?.numero_ipres || '—'}</div>
         <div><span class="lbl">Poste :</span> ${emp?.poste || '—'}</div>
       </div></div></div>`;
 
