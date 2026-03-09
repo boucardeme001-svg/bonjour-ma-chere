@@ -273,6 +273,7 @@ const BulletinDetail = ({ b }: { b: any }) => {
             <div>Situation : <span className="text-foreground font-medium">{sitLabel[emp?.situation_familiale] || emp?.situation_familiale || '—'}</span></div>
             <div>Enfants : <span className="text-foreground font-medium">{emp?.nombre_enfants ?? 0}</span></div>
             <div>N° CSS : <span className="text-foreground font-medium font-mono">{emp?.numero_css || '—'}</span></div>
+            <div>N° IPRES : <span className="text-foreground font-medium font-mono">{emp?.numero_ipres || '—'}</span></div>
             <div>Poste : <span className="text-foreground font-medium">{emp?.poste || '—'}</span></div>
           </div>
         </div>
