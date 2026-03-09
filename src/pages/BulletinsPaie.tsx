@@ -30,7 +30,7 @@ const BulletinsPaie = () => {
   const load = async () => {
     if (!user) return;
     const [b, e] = await Promise.all([
-      supabase.from('bulletins_paie').select('*, employes(matricule, pr, situation_familiale, nombre_enfants, numero_css, poste, date_embaucheenom, nom)').eq('user_id', user.id).order('created_at', { ascending: false }),
+      supabase.from('bulletins_paie').select('*, employes(matricule, prenom, nom, situation_familiale, nombre_enfants, numero_css, numero_ipres, poste, date_embauche)').eq('user_id', user.id).order('created_at', { ascending: false }),
       supabase.from('employes').select('*').eq('user_id', user.id).eq('actif', true).order('nom'),
     ]);
     setBulletins(b.data || []);
