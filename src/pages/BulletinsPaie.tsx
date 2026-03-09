@@ -105,8 +105,17 @@ const BulletinsPaie = () => {
       {/* Détail bulletin */}
       <Dialog open={!!viewBulletin} onOpenChange={() => setViewBulletin(null)}>
         <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader><DialogTitle>Bulletin de paie — {viewBulletin?.periode}</DialogTitle></DialogHeader>
-          {viewBulletin && <BulletinDetail b={viewBulletin} />}
+          <DialogHeader>
+            <div className="flex items-center justify-between">
+              <DialogTitle>Bulletin de paie — {viewBulletin?.periode}</DialogTitle>
+              {viewBulletin && (
+                <Button variant="outline" size="sm" className="print:hidden" onClick={() => handlePrint()}>
+                  <Printer className="w-4 h-4 mr-2" />Imprimer
+                </Button>
+              )}
+            </div>
+          </DialogHeader>
+          {viewBulletin && <div id="bulletin-print"><BulletinDetail b={viewBulletin} /></div>}
         </DialogContent>
       </Dialog>
 
