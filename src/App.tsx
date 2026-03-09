@@ -60,6 +60,7 @@ const App = () => (
               <Route path="tafire" element={<Tafire />} />
               <Route path="employes" element={<Employes />} />
               <Route path="bulletins-paie" element={<BulletinsPaie />} />
+              <Route path="etats-paie" element={<EtatsPaie />} />
               <Route path="profil" element={<MonProfil />} />
             </Route>
             <Route path="*" element={<NotFound />} />

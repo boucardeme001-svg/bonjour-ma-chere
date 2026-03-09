@@ -23,6 +23,7 @@ const etatsItems = [
 const paieItems = [
   { to: '/employes', label: 'Employés', icon: Users },
   { to: '/bulletins-paie', label: 'Bulletins de paie', icon: Receipt },
+  { to: '/etats-paie', label: 'États de paie', icon: ClipboardList },
 ];
 
 
