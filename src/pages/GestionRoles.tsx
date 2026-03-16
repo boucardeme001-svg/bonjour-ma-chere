@@ -21,31 +21,20 @@ const GestionRoles = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchUsers = async () => {
-    // Récupérer les profils
-    const { data: profiles, error: pErr } = await supabase
-      .from('profiles')
-      .select('user_id, nom, prenom');
+    const { data, error } = await supabase.rpc('list_all_users_for_admin');
 
-    if (pErr) {
+    if (error) {
       toast.error('Erreur lors du chargement des utilisateurs');
       setLoading(false);
       return;
     }
 
-    // Récupérer les rôles (via la vue publique)
-    const { data: roles } = await supabase
-      .from('user_roles')
-      .select('user_id, role');
-
-    const roleMap = new Map<string, string>();
-    roles?.forEach((r: any) => roleMap.set(r.user_id, r.role));
-
-    const merged: UserWithRole[] = (profiles || []).map((p) => ({
-      user_id: p.user_id,
-      email: '',
-      nom: p.nom || '',
-      prenom: p.prenom || '',
-      role: (roleMap.get(p.user_id) as AppRole) || null,
+    const merged: UserWithRole[] = (data || []).map((u: any) => ({
+      user_id: u.user_id,
+      email: u.email || '',
+      nom: u.nom || '',
+      prenom: u.prenom || '',
+      role: (u.role as AppRole) || null,
     }));
 
     setUsers(merged);
