@@ -20,6 +20,7 @@ import Employes from "./pages/Employes";
 import BulletinsPaie from "./pages/BulletinsPaie";
 import EtatsPaie from "./pages/EtatsPaie";
 import MonProfil from "./pages/MonProfil";
+import GestionRoles from "./pages/GestionRoles";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
