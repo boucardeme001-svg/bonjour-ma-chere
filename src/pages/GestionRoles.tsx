@@ -126,12 +126,13 @@ const GestionRoles = () => {
               <div key={u.user_id} className="flex items-center justify-between p-3 rounded-lg border bg-card">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center text-sm font-bold text-muted-foreground">
-                    {(u.prenom?.[0] || '').toUpperCase()}{(u.nom?.[0] || '').toUpperCase()}
+                    {(u.prenom?.[0] || u.email?.[0] || '?').toUpperCase()}{(u.nom?.[0] || '').toUpperCase()}
                   </div>
                   <div>
                     <p className="font-medium text-sm text-foreground">
-                      {u.prenom} {u.nom}
+                      {u.prenom || u.nom ? `${u.prenom} ${u.nom}`.trim() : u.email}
                     </p>
+                    {(u.prenom || u.nom) && <p className="text-xs text-muted-foreground">{u.email}</p>}
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
