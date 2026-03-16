@@ -514,6 +514,16 @@ export type Database = {
         }
         Returns: boolean
       }
+      list_all_users_for_admin: {
+        Args: never
+        Returns: {
+          email: string
+          nom: string
+          prenom: string
+          role: string
+          user_id: string
+        }[]
+      }
     }
     Enums: {
       app_role: "assistant" | "comptable" | "chef_comptable"
