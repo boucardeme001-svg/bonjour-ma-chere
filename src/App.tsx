@@ -20,6 +20,7 @@ import Employes from "./pages/Employes";
 import BulletinsPaie from "./pages/BulletinsPaie";
 import EtatsPaie from "./pages/EtatsPaie";
 import MonProfil from "./pages/MonProfil";
+import GestionRoles from "./pages/GestionRoles";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -62,6 +63,7 @@ const App = () => (
               <Route path="bulletins-paie" element={<BulletinsPaie />} />
               <Route path="etats-paie" element={<EtatsPaie />} />
               <Route path="profil" element={<MonProfil />} />
+              <Route path="gestion-roles" element={<GestionRoles />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
