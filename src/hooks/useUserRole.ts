@@ -7,8 +7,8 @@ export type AppRole = 'assistant' | 'comptable' | 'chef_comptable';
 // Définition des accès par module pour chaque rôle
 const MODULE_ACCESS: Record<AppRole, string[]> = {
   assistant: ['/', '/plan-comptable', '/journaux', '/grand-livre', '/balance'],
-  comptable: ['/', '/plan-comptable', '/journaux', '/ecritures', '/grand-livre', '/balance', '/exercices', '/bilan', '/compte-resultat', '/tafire', '/employes', '/bulletins-paie', '/etats-paie'],
-  chef_comptable: ['/', '/plan-comptable', '/journaux', '/ecritures', '/grand-livre', '/balance', '/exercices', '/bilan', '/compte-resultat', '/tafire', '/employes', '/bulletins-paie', '/etats-paie', '/gestion-roles'],
+  comptable: ['/', '/plan-comptable', '/journaux', '/ecritures', '/import-ia', '/grand-livre', '/balance', '/exercices', '/bilan', '/compte-resultat', '/tafire', '/employes', '/bulletins-paie', '/etats-paie'],
+  chef_comptable: ['/', '/plan-comptable', '/journaux', '/ecritures', '/import-ia', '/grand-livre', '/balance', '/exercices', '/bilan', '/compte-resultat', '/tafire', '/employes', '/bulletins-paie', '/etats-paie', '/gestion-roles'],
 };
 
 export const useUserRole = () => {
