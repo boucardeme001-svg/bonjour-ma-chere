@@ -1,6 +1,6 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { NavLink, useLocation } from 'react-router-dom';
-import { BookOpen, LayoutDashboard, List, FileText, BookOpenCheck, BarChart3, Settings, LogOut, ChevronsLeft, ChevronsRight, Users, Receipt, UserCircle, FileSpreadsheet, TrendingUp, ArrowDownUp, ClipboardList, Shield } from 'lucide-react';
+import { BookOpen, LayoutDashboard, List, FileText, BookOpenCheck, BarChart3, Settings, LogOut, ChevronsLeft, ChevronsRight, Users, Receipt, UserCircle, FileSpreadsheet, TrendingUp, ArrowDownUp, ClipboardList, Shield, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useUserRole, getRoleLabel } from '@/hooks/useUserRole';
@@ -11,6 +11,7 @@ const comptaItems = [
   { to: '/plan-comptable', label: 'Plan comptable', icon: List },
   { to: '/journaux', label: 'Journaux', icon: BookOpenCheck },
   { to: '/ecritures', label: 'Saisie écritures', icon: FileText },
+  { to: '/import-ia', label: 'Import IA', icon: Sparkles },
   { to: '/grand-livre', label: 'Grand livre', icon: BookOpen },
   { to: '/balance', label: 'Balance', icon: BarChart3 },
   { to: '/exercices', label: 'Exercices', icon: Settings },

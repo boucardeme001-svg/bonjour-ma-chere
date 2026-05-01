@@ -21,6 +21,7 @@ import BulletinsPaie from "./pages/BulletinsPaie";
 import EtatsPaie from "./pages/EtatsPaie";
 import MonProfil from "./pages/MonProfil";
 import GestionRoles from "./pages/GestionRoles";
+import ImportIA from "./pages/ImportIA";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -64,6 +65,7 @@ const App = () => (
               <Route path="etats-paie" element={<EtatsPaie />} />
               <Route path="profil" element={<MonProfil />} />
               <Route path="gestion-roles" element={<GestionRoles />} />
+              <Route path="import-ia" element={<ImportIA />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

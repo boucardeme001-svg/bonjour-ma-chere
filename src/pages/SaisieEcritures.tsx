@@ -8,8 +8,9 @@ import { Card } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { Plus, Trash2, Save, Check } from 'lucide-react';
+import { Plus, Trash2, Save, Check, Sparkles } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { useUserRole } from '@/hooks/useUserRole';
 
 interface LigneForm {
   compte_id: string;
@@ -20,6 +21,8 @@ interface LigneForm {
 
 const SaisieEcritures = () => {
   const { user } = useAuth();
+  const { isComptable } = useUserRole();
+  const [suggesting, setSuggesting] = useState<number | null>(null);
   const [exercices, setExercices] = useState<any[]>([]);
   const [journaux, setJournaux] = useState<any[]>([]);
   const [comptes, setComptes] = useState<any[]>([]);
@@ -68,6 +71,37 @@ const SaisieEcritures = () => {
     if (field === 'debit' && value) updated[i].credit = '';
     if (field === 'credit' && value) updated[i].debit = '';
     setLignes(updated);
+  };
+
+  const suggererCompte = async (i: number) => {
+    const ligneLibelle = lignes[i].libelle || libelle;
+    if (!ligneLibelle) { toast.error("Saisis d'abord un libellé"); return; }
+    setSuggesting(i);
+    try {
+      const { data, error } = await supabase.functions.invoke('ia-comptable', {
+        body: {
+          action: 'suggest_account',
+          payload: {
+            libelle: ligneLibelle,
+            comptes: comptes.map((c) => ({ numero: c.numero, libelle: c.libelle })),
+          },
+        },
+      });
+      if (error) throw error;
+      if (data?.error) { toast.error(data.error); return; }
+      const compte = comptes.find((c) => c.numero === data.numero);
+      if (!compte) { toast.error("Compte suggéré introuvable"); return; }
+      const updated = [...lignes];
+      updated[i] = { ...updated[i], compte_id: compte.id };
+      setLignes(updated);
+      toast.success(`Compte ${compte.numero} suggéré (confiance: ${data.confiance})`, {
+        description: data.justification,
+      });
+    } catch (e: any) {
+      toast.error(e.message || 'Erreur IA');
+    } finally {
+      setSuggesting(null);
+    }
   };
 
   const totalDebit = lignes.reduce((s, l) => s + (parseFloat(l.debit) || 0), 0);
@@ -172,7 +206,14 @@ const SaisieEcritures = () => {
                 <TableCell><Input type="number" value={l.debit} onChange={(e) => updateLigne(i, 'debit', e.target.value)} placeholder="0.00" className="text-right font-mono" min="0" step="0.01" /></TableCell>
                 <TableCell><Input type="number" value={l.credit} onChange={(e) => updateLigne(i, 'credit', e.target.value)} placeholder="0.00" className="text-right font-mono" min="0" step="0.01" /></TableCell>
                 <TableCell>
-                  <Button variant="ghost" size="icon" onClick={() => removeLigne(i)} disabled={lignes.length <= 2}><Trash2 className="w-4 h-4" /></Button>
+                  <div className="flex gap-1">
+                    {isComptable && (
+                      <Button variant="ghost" size="icon" onClick={() => suggererCompte(i)} disabled={suggesting === i} title="Suggérer un compte (IA)">
+                        <Sparkles className={`w-4 h-4 ${suggesting === i ? 'animate-pulse text-primary' : 'text-primary'}`} />
+                      </Button>
+                    )}
+                    <Button variant="ghost" size="icon" onClick={() => removeLigne(i)} disabled={lignes.length <= 2}><Trash2 className="w-4 h-4" /></Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
